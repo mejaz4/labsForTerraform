@@ -21,6 +21,7 @@ jobs:
       - run: echo "This job's status is ${{job.status}}"
       - run: echo "skip"
   Second-Job:
+    needs: Explore-Github-Actions
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically trigged by a ${{github.event_name}} event"
