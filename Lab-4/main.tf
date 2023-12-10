@@ -4,16 +4,17 @@ provider "aws" {
   region = "ca-central-1"
 }
 
+resource "aws_default_vpc" "default" {}
 
 resource "aws_instance" "name" {
-  ami           = "ami-097300c6222ac2b2a"
-  instance_type = "t3.micro"
+  ami                    = "ami-097300c6222ac2b2a"
+  instance_type          = "t3.micro"
   vpc_security_group_ids = [aws_security_group.web.id]
 
-  user_data     = templatefile("user_data.sh.tpl", {
-    f_name = "Musa"
-    l_name = "Ejaz"
-    names = ["John", "Angel", "Daivd", "Victor", "Frank", "Melissa", "Kitana"]
+  user_data = templatefile("user_data.sh.tpl", {
+    f_name = "Musa",
+    l_name = "Ejaz",
+    names  = ["Vasya", "Kolya", "Petya", "John", "Donald", "Masha"]
   })
   tags = {
     Name  = "Webserver built by Terraform"

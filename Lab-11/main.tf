@@ -58,7 +58,6 @@ output "aws_vpcs" {
 
 }
 
-
 output "all_vpcs_ids" {
   value = data.aws_vpcs.vpcs.ids
 

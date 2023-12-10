@@ -32,7 +32,7 @@ resource "aws_instance" "my_server_db" {
 }
 
 resource "aws_security_group" "general" {
-  name = "My Security Groud"
+  name = "My Security Ground"
   dynamic "ingress" {
 
     for_each = ["80", "443", "22", "3389"]

@@ -63,6 +63,6 @@ output "my_security_group_id" {
 }
 
 output "my_security_group_arn" {
-  value = aws_security_group.general
+  value = aws_security_group.general.arn
 }
 

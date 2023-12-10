@@ -4,13 +4,14 @@ provider "aws" {
   region = "ca-central-1"
 }
 
+resource "aws_default_vpc" "default" {}
 
-resource "aws_instance" "name" {
-  ami           = "ami-097300c6222ac2b2a"
-  instance_type = "t3.micro"
+resource "aws_instance" "my_webserver" {
+  ami                    = "ami-097300c6222ac2b2a"
+  instance_type          = "t3.micro"
   vpc_security_group_ids = [aws_security_group.web.id]
 
-  user_data     = file("user_data.sh")
+  user_data = file("user_data.sh")
   tags = {
     Name  = "Webserver built by Terraform"
     Owner = "Musa Ejaz"
@@ -20,6 +21,7 @@ resource "aws_instance" "name" {
 resource "aws_security_group" "web" {
   name        = "WebServer-SG"
   description = "Security Group for my WebServer"
+  vpc_id = aws_default_vpc.default.id
 
   ingress {
     description = "Allow port HTTP"
