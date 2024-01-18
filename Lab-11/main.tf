@@ -8,12 +8,9 @@ data "aws_availability_zones" "working" {}
 
 data "aws_vpcs" "vpcs" {}
 
-data "aws_vpc" "prod" {
+resource "aws_vpc" "prod" {}
 
-  tags = {
-    Name = "PROD"
-  }
-}
+data "aws_vpc" "prod" {}
 
 resource "aws_subnet" "subnet1" {
   vpc_id            = data.aws_vpc.prod.id
@@ -53,10 +50,10 @@ output "aws_availability_zones" {
   value = data.aws_availability_zones.working.names
 }
 
-output "aws_vpcs" {
-  value = data.aws_vpcs.vpc
+# output "aws_vpcs" {
+#   value = data.aws_vpcs.vpc
 
-}
+# }
 
 output "all_vpcs_ids" {
   value = data.aws_vpcs.vpcs.ids

@@ -5,7 +5,7 @@
 #  Classis load balanacer in 2 available zones
 
 provider "aws" {
-  region = "eu-west-1"
+  region = "ca-central-1"
 }
 
 data "aws_availability_zones" "working" {}
@@ -43,7 +43,6 @@ resource "aws_security_group" "web" {
   }
 }
 
-
 resource "aws_launch_configuration" "web" {
   name_prefix     = "WebServer-Highly-Available-LC-"
   image_id        = data.aws_ami.latest_amazon_linux.id
@@ -55,7 +54,6 @@ resource "aws_launch_configuration" "web" {
     create_before_destroy = true
   }
 }
-
 
 resource "aws_autoscaling_group" "web" {
   name                 = "ASG-${aws_launch_configuration.web.name}"
@@ -89,6 +87,7 @@ resource "aws_elb" "web" {
   availability_zones = [data.aws_availability_zones.working.names[0], data.aws_availability_zones.working.names[1]]
   security_groups    = [aws_security_group.web.id]
   listener {
+    //load balance receives traffic on port 80 and sends signals to instances through port 80 as well
     lb_port           = 80
     lb_protocol       = "http"
     instance_port     = 80

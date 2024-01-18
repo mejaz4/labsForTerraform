@@ -1,3 +1,5 @@
+//shows how to use depends_on and how it affects when a resource is created and destroyed
+
 provider "aws" {
   region = "eu-central-1"
 }

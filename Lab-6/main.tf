@@ -1,3 +1,6 @@
+// set a provider, create a default vpc, create an elastic ip address, create an ec2 and link with eip, create security group,
+
+
 provider "aws" {
   region = "us-west-2"
 }
@@ -13,6 +16,8 @@ resource "aws_eip" "web" {
   }
 }
 
+//user_data_replace_on_change: will trigger a destroy and recreate when set to true
+//create_before_destroy (bool): By default, when Terraform must change a resource argument that cannot be updated in-place due to remote API limitations, Terraform will instead destroy the existing object and then create a new replacement object with the new configured arguments. The create_before_destroy meta-argument changes this behavior so that the new replacement object is created first, and the prior object is destroyed after the replacement is created.
 resource "aws_instance" "web" {
   ami                         = "ami-07a0da1997b55b23e" // Amazon Linux2
   instance_type               = "t3.micro"

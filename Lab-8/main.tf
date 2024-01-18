@@ -66,3 +66,4 @@ output "my_security_group_arn" {
   value = aws_security_group.general.arn
 }
 
+

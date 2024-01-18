@@ -1,9 +1,8 @@
 provider "aws" {
-  region = "ca-central-1"
+  region = "us-east-1"
 }
 
 resource "aws_db_instance" "prod" {
-
   identifier           = "prod-mysql-rds"
   allocated_storage    = 20
   storage_type         = "gp2"
@@ -13,7 +12,6 @@ resource "aws_db_instance" "prod" {
   parameter_group_name = "default.mysql5.7"
   skip_final_snapshot  = true
   apply_immediately    = true
-
   //not nice to hard code the password
   //we can automatically generate password
   username = "administrator"
@@ -68,7 +66,6 @@ data "aws_secretsmanager_secret_version" "rds" {
   secret_id  = aws_secretsmanager_secret.rds.id
   depends_on = [aws_secretsmanager_secret_version.rds]
 }
-
 
 output "rds_address" {
   sensitive = true

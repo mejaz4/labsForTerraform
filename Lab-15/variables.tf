@@ -12,7 +12,7 @@ variable "instance_size" {
 
 variable "port_list" {
   description = "List of ports to open for our webserver"
-  type = list(any)
+  type = list(any) //can also be list(string) or number
   default = [ "80", "443" ]
 }
 
@@ -38,11 +38,12 @@ variable "password_for_something" {
 }
 
 
-//to input a value which is not default do terraform apply -var="password_for_something=1234567890"
+//to input a value which is not default do terraform apply -var="password_for_something=1234567890" -var="port_list=["433", "400"]".. you can add more -var
 
 //or another way to store env variables
 # export TF_VAR_password_for_something=1234567812
 # export TF_VAR_port_list=["10", "20"]
+// terraform apply will use the env variables in this case
 // print env variables in terminal by typing env
 //or env | grep TF_VAR to print out variables with TF_VAR name
 

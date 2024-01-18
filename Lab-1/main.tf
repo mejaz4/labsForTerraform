@@ -14,9 +14,7 @@ resource "aws_instance" "my_ubuntu" {
   }
 }
 
-resource "aws_default_vpc" "default" {
-
-}
+resource "aws_default_vpc" "default" {}
 
 resource "aws_instance" "my_amazon" {
   ami           = "ami-0f3769c8d8429942f"
@@ -28,6 +26,3 @@ resource "aws_instance" "my_amazon" {
     vpc_id = aws_default_vpc.default.id
   }
 }
-
-
-# sdjafj 
