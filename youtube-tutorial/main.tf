@@ -30,8 +30,8 @@ resource "aws_route_table" "prod-route-table" {
 }
 #4. create a subnet
 resource "aws_subnet" "prod-subnet" {
-  vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
   availability_zone = "us-east-1a"
 
   tags = {
@@ -54,16 +54,16 @@ resource "aws_security_group" "prod-sg" {
   dynamic "ingress" {
     for_each = ["22", "80", "443"]
     content {
-      from_port = ingress.value
-      to_port = ingress.value
-      protocol = "tcp"
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
     }
   }
   egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -81,32 +81,32 @@ resource "aws_network_interface" "prod_network_interface" {
 
 #8. assign an eip to the network interface created in step 7
 resource "aws_eip" "one" {
-  vpc  = true
+  vpc                       = true
   network_interface         = aws_network_interface.prod_network_interface.id
   associate_with_private_ip = "10.0.1.50"
-  depends_on = [aws_internet_gateway.my-gateway]
+  depends_on                = [aws_internet_gateway.my-gateway]
 }
 
 #9. create Ubuntu server and install apache2
 
 resource "aws_instance" "my-instance" {
-    ami = "ami-085925f297f89fce1"
-    instance_type = "t3.micro"
-    availability_zone = "us-east-1a"
-    key_name = "musa-key-pair"
+  ami               = "ami-085925f297f89fce1"
+  instance_type     = "t3.micro"
+  availability_zone = "us-east-1a"
+  key_name          = "musa-key-pair"
 
-      network_interface {
+  network_interface {
     network_interface_id = aws_network_interface.prod_network_interface.id
     device_index         = 0
   }
-    user_data = <<-EOF
+  user_data = <<-EOF
     #!bin/bash
     sudo apt update -y
     sudo apt install apache2 -y
     sudo systemctl start apache2
     sudo bash -c 'echo your very first web server > /var/www/html/index.html'
     EOF
-    tags = {
-      Name = "Web-server"
-    }
+  tags = {
+    Name = "Web-server"
+  }
 }
